@@ -1,7 +1,7 @@
 import { isAuth } from "@/redux/AuthState";
 import { useDispatch } from "react-redux";
 import { useCallback, useEffect } from "react";
-import { getCookie, removeCookies } from "cookies-next";
+import { getCookie } from "cookies-next";
 import DataUserThunk from "@/redux/data-user-thunk";
 const UseAuth = () => {
   const dispatch = useDispatch();
