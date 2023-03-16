@@ -7,6 +7,7 @@ const initialState = {
     show: false,
   },
 };
+
 const GlobalState = createSlice({
   name: "global",
   initialState,

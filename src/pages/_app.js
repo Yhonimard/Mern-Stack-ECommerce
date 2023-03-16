@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import { Provider, useSelector } from "react-redux";
 import theme from "@/utils/theme";
 import UseAuth from "@/utils/useAuth";
-import UseToast from "@/utils/useToast";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
@@ -15,7 +14,6 @@ export default function App({ Component, pageProps }) {
   return (
     <ChakraProvider theme={theme}>
       <Provider store={store}>
-        <UseToast />
         <UseAuth />
         {isAuth && <Component />}
         {!isAuth && (

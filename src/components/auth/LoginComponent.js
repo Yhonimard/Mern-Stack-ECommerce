@@ -13,17 +13,25 @@ import {
   Input,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
-import { showToastHandler } from "@/redux/GlobalState";
 import { setCookie } from "cookies-next";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { isAuth } from "@/redux/AuthState";
+import ToastComponent from "../UI/ToastComponent";
 
 const LoginComponent = () => {
   const router = useRouter();
 
   const dispatch = useDispatch();
+
+  // const toast = useToast({
+  //   position: "top",
+  //   duration: 3000,
+  //   isClosable: true,
+  // });
+  const toast = ToastComponent();
 
   const { errors, handleSubmit, register } = LoginSchema();
 
@@ -34,7 +42,6 @@ const LoginComponent = () => {
     },
     [dispatch]
   );
-
   const submitHandler = useCallback(
     async (userData) => {
       try {
@@ -45,34 +52,18 @@ const LoginComponent = () => {
             throw err;
           });
 
-        if (res.data) {
-          dispatch(
-            showToastHandler({
-              title: "login success!!",
-              status: res.data.status,
-              show: true,
-            })
-          );
-        }
-
         if (res.data.token) {
+          toast({ title: "login success", status: res.data.status });
           loginHandler(res.data.token);
         }
       } catch (error) {
-        dispatch(
-          showToastHandler({
-            title: "login failed pls try again",
-            status: "error",
-            show: true,
-          })
-        );
-
+        toast({ message: "login failed, pls try again", status: "error" });
         return;
       }
 
       router.push("/");
     },
-    [dispatch, loginHandler, router]
+    [loginHandler, router, toast]
   );
 
   return (
