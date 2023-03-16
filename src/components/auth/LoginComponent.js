@@ -14,6 +14,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { showToastHandler } from "@/redux/GlobalState";
 import { setCookie } from "cookies-next";
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
@@ -28,31 +29,51 @@ const LoginComponent = () => {
 
   const loginHandler = useCallback(
     (token) => {
-      dispatch(isAuth(!!token));
+      dispatch(isAuth(true));
       setCookie("token", token);
     },
     [dispatch]
   );
 
-  const submitHandler = async (data) => {
-    try {
-      const res = await axios
-        .post("/api/auth/login", data, { withCredentials: true })
-        .catch((error) => {
-          const err = error.response.data.message;
-          throw err;
-        });
+  const submitHandler = useCallback(
+    async (userData) => {
+      try {
+        const res = await axios
+          .post("/api/auth/login", userData, { withCredentials: true })
+          .catch((error) => {
+            const err = error.response.data.message;
+            throw err;
+          });
 
-      if (res.data.token) {
-        loginHandler(res.data.token);
+        if (res.data) {
+          dispatch(
+            showToastHandler({
+              title: "login success!!",
+              status: res.data.status,
+              show: true,
+            })
+          );
+        }
+
+        if (res.data.token) {
+          loginHandler(res.data.token);
+        }
+      } catch (error) {
+        dispatch(
+          showToastHandler({
+            title: "login failed pls try again",
+            status: "error",
+            show: true,
+          })
+        );
+
+        return;
       }
-    } catch (error) {
-      console.log(error);
-      return;
-    }
 
-    router.push("/");
-  };
+      router.push("/");
+    },
+    [dispatch, loginHandler, router]
+  );
 
   return (
     <Container

@@ -5,6 +5,7 @@ const { createSlice, current } = require("@reduxjs/toolkit");
 const initialState = {
   isLogin: false,
   userData: {},
+  userCartData: {},
 };
 
 const AuthState = createSlice({
@@ -17,9 +18,12 @@ const AuthState = createSlice({
     isUserdata(state, action) {
       state.userData = action.payload;
     },
+    isUserCartData(state, action) {
+      state.userCartData = action.payload;
+    },
   },
 });
 
-export const { isAuth, isUserdata } = AuthState.actions;
+export const { isAuth, isUserdata, isUserCartData } = AuthState.actions;
 
 export default AuthState;

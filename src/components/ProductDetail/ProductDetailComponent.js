@@ -19,10 +19,13 @@ const ProductDetailComponent = ({ data }) => {
   const img = "https://source.unsplash.com/500x500";
   return (
     <Container
-      minH={["100vh", "70vh"]}
+      minH={["100vh"]}
       sx={{ display: "flex", justifyContent: "center" }}
       py={5}
       maxW={["conatiner.sm", "fit-content"]}
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
     >
       <Card
         shadow="lg"

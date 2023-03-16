@@ -1,3 +1,5 @@
+import { Box } from "@chakra-ui/react";
+
 export function CartIcon({ size }) {
   return (
     <svg
@@ -54,5 +56,59 @@ export function CartPlusIcon({ size }) {
         <path d="M7.92 18.5c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM17.92 18.5c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2zM12.5 10.87h1v-1.5H15v-1h-1.5v-1.5h-1v1.5H11v1h1.5v1.5z"></path>
       </g>
     </svg>
+  );
+}
+
+export function PlusIcon({ size }) {
+  return (
+    <Box cursor="pointer">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size || 24}
+        height={size || 24}
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke="#323232"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M9 12h6M12 9v6"
+        ></path>
+        <path
+          stroke="#323232"
+          strokeWidth="2"
+          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+      </svg>
+    </Box>
+  );
+}
+
+export function MinusIcon({ size }) {
+  return (
+    <Box cursor="pointer">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width={size || 24}
+        height={size || 24}
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <path
+          stroke="#323232"
+          strokeWidth="2"
+          d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+        ></path>
+        <path
+          stroke="#323232"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M9 12h6"
+        ></path>
+      </svg>
+    </Box>
   );
 }

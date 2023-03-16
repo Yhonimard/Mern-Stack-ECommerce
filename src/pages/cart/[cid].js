@@ -1,15 +1,8 @@
-/**
- *
- * @param {import("next").GetStaticProps} getStaticProps
- * @param {import("next").GetStaticPaths} getStaticPaths
- *
- *
- */
-
 import CartComponent from "@/components/Cart/CartComponent";
 
 const CartPage = ({ data }) => {
-  return <CartComponent cartData={data.result} />;
+  console.log(data);
+  return <CartComponent cartData={data} />;
 };
 export default CartPage;
 
@@ -40,3 +33,5 @@ export const getStaticProps = async ({ params }) => {
     },
   };
 };
+
+export const getServerSideProps = async ({ params }) => {};

@@ -15,7 +15,16 @@ const ProductHeader = () => {
           px={3}
         >
           <Button variant="ghost" size={["sm", "md"]}>
-            category
+            men cloth
+          </Button>
+          <Button variant="ghost" size={["sm", "md"]}>
+            woman cloth
+          </Button>
+          <Button variant="ghost" size={["sm", "md"]}>
+            food
+          </Button>
+          <Button variant="ghost" size={["sm", "md"]}>
+            jewelry
           </Button>
         </Flex>
       </Box>

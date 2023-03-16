@@ -48,6 +48,11 @@ const signup = async (req, res) => {
       .json({ message: "could not create user pls try again" });
   }
 
+  const createdCart = new cartSchema({
+    totalPrice: 0,
+    cartList: [],
+  });
+
   const createdUser = new userSchema({
     username,
     email,
@@ -57,6 +62,10 @@ const signup = async (req, res) => {
   });
 
   try {
+    createdCart.user = createdUser.id;
+    createdUser.cart = createdCart.id;
+
+    await createdCart.save();
     await createdUser.save();
   } catch (error) {
     return res.status(500).json({ message: "signup failed pls try again" });

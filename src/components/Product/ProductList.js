@@ -1,4 +1,5 @@
 import { CartPlusIcon } from "@/assets/Icon";
+import { useSelector } from "react-redux";
 import {
   Card,
   CardBody,
@@ -15,6 +16,7 @@ import { useRouter } from "next/router";
 
 const ProductList = ({ data }) => {
   const router = useRouter();
+  const { id } = useSelector((state) => state.auth.userData);
 
   const handleNavigate = (id) => {
     router.push(`/product-detail/${id}`);
@@ -22,7 +24,7 @@ const ProductList = ({ data }) => {
 
   const addToCartHanlder = async (data) => {
     try {
-      const res = await axios.post("/api/cart", data).catch((err) => {
+      const res = await axios.post(`/api/cart/add/${id}`, data).catch((err) => {
         const errorMsg = err.response.data.message;
         throw (
           errorMsg ||
@@ -59,11 +61,11 @@ const ProductList = ({ data }) => {
               <Heading size="sm" noOfLines={1}>
                 {i.name}
               </Heading>
-              <Text noOfLines={1} lineHeight={1.7}>
+              <Text noOfLines={1} lineHeight="taller">
                 {i.description}
               </Text>
               <HStack justify="space-between">
-                <Text fontWeight="medium">$50</Text>
+                <Text fontWeight="medium">${i.price}</Text>
                 <IconButton
                   icon={<CartPlusIcon size={18} />}
                   isRound

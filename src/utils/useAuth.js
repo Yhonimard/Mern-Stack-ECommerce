@@ -18,7 +18,6 @@ const UseAuth = () => {
     const userId = getCookie("userid");
     const token = getCookie("token");
     console.log("running from useAuth useEffect");
-
     if (token) {
       loginHandler(token, userId);
       return;

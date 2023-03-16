@@ -3,7 +3,6 @@ import connectMongo from "@/utils/connectMongo";
 import cartSchema from "@/models/CartModels";
 import { getCookie } from "cookies-next";
 import productSchema from "@/models/ProductsModels";
-import mongoose from "mongoose";
 
 /**
  * @param {import("next").NextApiRequest} req
