@@ -19,14 +19,15 @@ import {
 } from "@chakra-ui/react";
 import ToastComponent from "../UI/ToastComponent";
 import { isAuth } from "@/redux/AuthState";
+import { useDispatch } from "react-redux";
 
 const SignupComponent = () => {
   const router = useRouter();
 
   const { errors, handleSubmit, register } = SignupSchema();
+  const dispatch = useDispatch();
 
   const toast = ToastComponent();
-  const dispatch = useDispatch();
 
   const signupHandler = async (data) => {
     const { confirmPassword, username, email, age, address } = data;
