@@ -26,11 +26,6 @@ const LoginComponent = () => {
 
   const dispatch = useDispatch();
 
-  // const toast = useToast({
-  //   position: "top",
-  //   duration: 3000,
-  //   isClosable: true,
-  // });
   const toast = ToastComponent();
 
   const { errors, handleSubmit, register } = LoginSchema();

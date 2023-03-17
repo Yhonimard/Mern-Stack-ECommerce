@@ -17,11 +17,16 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import ToastComponent from "../UI/ToastComponent";
+import { isAuth } from "@/redux/AuthState";
 
 const SignupComponent = () => {
   const router = useRouter();
 
   const { errors, handleSubmit, register } = SignupSchema();
+
+  const toast = ToastComponent();
+  const dispatch = useDispatch();
 
   const signupHandler = async (data) => {
     const { confirmPassword, username, email, age, address } = data;
@@ -40,10 +45,13 @@ const SignupComponent = () => {
           throw err.response.data.message || "something went wrong ";
         });
       if (res.data.token) {
+        dispatch(isAuth(true));
         setCookie("token", res.data.token);
+        toast({ title: "signup success!!!", status: "success" });
       }
     } catch (error) {
       console.log(error);
+      toast({ title: "signup failed, pls try again", status: "error" });
       return;
     }
 

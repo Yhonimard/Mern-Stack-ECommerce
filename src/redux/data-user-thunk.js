@@ -8,7 +8,8 @@ export default function DataUserThunk(userId) {
         throw errorMsg || "something went wrong, pls try again";
       });
       dispatch(isUserdata(data.result));
-      // dispatch(showToastHandler({ title: "hay", status: "error", show: true }));
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
