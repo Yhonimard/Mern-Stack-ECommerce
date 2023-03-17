@@ -24,12 +24,14 @@ export default async function handler(req, res) {
 
   let findUser;
   try {
-    findUser = await userSchema.findById(userId, "-password").populate({
-      path: "cart",
-      populate: {
-        path: "cartList.product",
-      },
-    });
+    findUser = await userSchema.findById(userId, "-password").populate("cart");
+
+    // .populate({
+    //   path: "cart",
+    //   populate: {
+    //     path: "cartList.product",
+    //   },
+    // });
   } catch (error) {
     return res
       .status(500)

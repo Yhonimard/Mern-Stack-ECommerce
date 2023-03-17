@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRouter } from "next/router";
+import ToastComponent from "../UI/ToastComponent";
 
 const ProductList = ({ data }) => {
   const router = useRouter();
@@ -21,6 +22,8 @@ const ProductList = ({ data }) => {
   const handleNavigate = (id) => {
     router.push(`/product-detail/${id}`);
   };
+
+  const toast = ToastComponent();
 
   const addToCartHanlder = async (data) => {
     try {
@@ -31,9 +34,15 @@ const ProductList = ({ data }) => {
           "something went wrong, cant add product to cart, pls try again"
         );
       });
-      console.log(res);
+      toast({
+        title: "product have been added to your cart",
+        status: "success",
+      });
     } catch (error) {
-      console.log(error);
+      toast({
+        title: "adding product to your cart failed, pls try again",
+        status: "error",
+      });
     }
   };
 

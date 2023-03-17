@@ -1,7 +1,6 @@
 import CartComponent from "@/components/Cart/CartComponent";
 
 const CartPage = ({ data }) => {
-  console.log(data);
   return <CartComponent cartData={data} />;
 };
 export default CartPage;
@@ -31,7 +30,6 @@ export const getStaticProps = async ({ params }) => {
     props: {
       data,
     },
+    revalidate: 5,
   };
 };
-
-export const getServerSideProps = async ({ params }) => {};

@@ -13,6 +13,10 @@ import {
 import { PlusIcon, MinusIcon } from "@/assets/Icon";
 
 const CartComponent = ({ cartData }) => {
+  console.log(cartData);
+
+  const { result, totalPrice } = cartData;
+
   return (
     <Container
       bgColor=""
@@ -43,43 +47,47 @@ const CartComponent = ({ cartData }) => {
           borderRadius="md"
           border="1px solid lightgray"
         >
-          <Flex
-            flexWrap="wrap"
-            borderBottom="lightgray"
-            borderBottomStyle="solid"
-            h={130}
-          >
-            <Flex flexWrap="nowrap" direction="row" gap="2">
-              <Img
-                src="http://source.unsplash.com/300x300"
-                w={20}
-                h={20}
-                borderRadius="md"
-              />
-              <Stack direction="column">
-                <Heading size="sm" noOfLines={3} overflow="hidden">
-                  title title title titleti tititi tletletl etletitle asddsa d
-                  asdas das dasd as title title title titleti tititi tletletl
-                  etletitle
-                </Heading>
-                <Stack spacing={2} direction="row" align="center">
-                  <Text fontSize="sm">$50</Text>
-                  <Heading size="sm">$100</Heading>
+          {result &&
+            result?.cartList?.map((item) => (
+              <Flex
+                key={item.id}
+                flexWrap="wrap"
+                borderBottom="lightgray"
+                borderBottomStyle="solid"
+                h={130}
+              >
+                <Flex flexWrap="nowrap" direction="row" gap="2">
+                  <Img
+                    src="http://source.unsplash.com/300x300"
+                    w={20}
+                    h={20}
+                    borderRadius="md"
+                  />
+                  <Stack direction="column">
+                    <Heading size="sm" noOfLines={3} overflow="hidden">
+                      title title title titleti tititi tletletl etletitle asddsa
+                      d asdas das dasd as title title title titleti tititi
+                      tletletl etletitle
+                    </Heading>
+                    <Stack spacing={2} direction="row" align="center">
+                      <Text fontSize="sm">$50</Text>
+                      <Heading size="sm">$100</Heading>
+                    </Stack>
+                  </Stack>
+                </Flex>
+                <Stack
+                  w="full"
+                  mb={3}
+                  spacing="4"
+                  direction={"row"}
+                  justifyContent="flex-end"
+                >
+                  <MinusIcon />
+                  <span>12</span>
+                  <PlusIcon />
                 </Stack>
-              </Stack>
-            </Flex>
-            <Stack
-              w="full"
-              mb={3}
-              spacing="4"
-              direction={"row"}
-              justifyContent="flex-end"
-            >
-              <MinusIcon />
-              <span>12</span>
-              <PlusIcon />
-            </Stack>
-          </Flex>
+              </Flex>
+            ))}
         </Box>
 
         <Box
@@ -115,7 +123,7 @@ const CartComponent = ({ cartData }) => {
           <Flex flexDir="column" rowGap="5">
             <HStack align="center" justify="space-between">
               <Heading size="sm">Total Price</Heading>
-              <Heading size="sm">$50</Heading>
+              <Heading size="sm">${totalPrice}</Heading>
             </HStack>
             <Button>buy now</Button>
           </Flex>
