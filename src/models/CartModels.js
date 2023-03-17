@@ -15,6 +15,6 @@ const cart = new Schema(
   { timestamps: true }
 );
 
-const cartSchema = models.Cart || model("Cart", cart);
+const cartSchema = models.Carts || model("Carts", cart);
 
 export default cartSchema;
