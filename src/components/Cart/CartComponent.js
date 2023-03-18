@@ -10,12 +10,32 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { PlusIcon, MinusIcon } from "@/assets/Icon";
+import { useSelector } from "react-redux";
+import { MinusIcon, PlusIcon } from "@/assets/Icon";
+import axios from "axios";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const CartComponent = ({ cartData }) => {
-  console.log(cartData);
+  const userData = useSelector((state) => state.auth.userData);
 
-  const { result, totalPrice } = cartData;
+  const queryClient = useQueryClient();
+
+  const { mutate } = useMutation({
+    mutationFn: (data) => axios.post(`/api/cart/add/${userData?.id}`, data),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cart-data"] });
+    },
+  });
+
+  const { result } = cartData;
+
+  const addQtyHandler = (id) => {
+    const data = {
+      productId: id,
+      quantity: 1,
+    };
+    mutate(data);
+  };
 
   return (
     <Container
@@ -55,6 +75,7 @@ const CartComponent = ({ cartData }) => {
                 borderBottom="lightgray"
                 borderBottomStyle="solid"
                 h={130}
+                w="full"
               >
                 <Flex flexWrap="nowrap" direction="row" gap="2">
                   <Img
@@ -65,13 +86,11 @@ const CartComponent = ({ cartData }) => {
                   />
                   <Stack direction="column">
                     <Heading size="sm" noOfLines={3} overflow="hidden">
-                      title title title titleti tititi tletletl etletitle asddsa
-                      d asdas das dasd as title title title titleti tititi
-                      tletletl etletitle
+                      {item?.product?.name}
                     </Heading>
                     <Stack spacing={2} direction="row" align="center">
-                      <Text fontSize="sm">$50</Text>
-                      <Heading size="sm">$100</Heading>
+                      <Text fontSize="sm">${item?.product?.price}</Text>
+                      <Heading size="sm">${item?.price}</Heading>
                     </Stack>
                   </Stack>
                 </Flex>
@@ -83,8 +102,8 @@ const CartComponent = ({ cartData }) => {
                   justifyContent="flex-end"
                 >
                   <MinusIcon />
-                  <span>12</span>
-                  <PlusIcon />
+                  <span>{item.quantity}</span>
+                  <PlusIcon onClick={() => addQtyHandler(item.product.id)} />
                 </Stack>
               </Flex>
             ))}
@@ -110,7 +129,7 @@ const CartComponent = ({ cartData }) => {
             </Heading>
             <HStack align="center" justifyContent="space-between">
               <Text>total spending</Text>
-              <Text>0</Text>
+              <Text>{result?.cartList?.length}</Text>
             </HStack>
             <HStack align="center" justifyContent="space-between">
               <Text>total discount</Text>
@@ -123,7 +142,7 @@ const CartComponent = ({ cartData }) => {
           <Flex flexDir="column" rowGap="5">
             <HStack align="center" justify="space-between">
               <Heading size="sm">Total Price</Heading>
-              <Heading size="sm">${totalPrice}</Heading>
+              <Heading size="sm">${result?.totalPrice}</Heading>
             </HStack>
             <Button>buy now</Button>
           </Flex>

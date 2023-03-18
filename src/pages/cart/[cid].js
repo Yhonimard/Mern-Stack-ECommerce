@@ -1,7 +1,12 @@
 import CartComponent from "@/components/Cart/CartComponent";
+import { useRouter } from "next/router";
+import useGetCartData from "@/query/useGetCartData";
 
 const CartPage = ({ data }) => {
-  return <CartComponent cartData={data} />;
+  const { query } = useRouter();
+
+  const { data: cartData } = useGetCartData(query.cid, data);
+  return <CartComponent cartData={cartData} />;
 };
 export default CartPage;
 
@@ -30,6 +35,5 @@ export const getStaticProps = async ({ params }) => {
     props: {
       data,
     },
-    revalidate: 5,
   };
 };

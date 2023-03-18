@@ -50,6 +50,7 @@ const signup = async (req, res) => {
 
   const createdCart = new cartSchema({
     totalPrice: 0,
+    totalProduct: 0,
     cartList: [],
   });
 

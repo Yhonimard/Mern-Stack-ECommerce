@@ -1,6 +1,4 @@
-import { getCookie } from "cookies-next";
-
-const { createSlice, current } = require("@reduxjs/toolkit");
+const { createSlice } = require("@reduxjs/toolkit");
 
 const initialState = {
   isLogin: false,

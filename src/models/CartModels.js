@@ -12,7 +12,7 @@ const cart = new Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const cartSchema = models.Carts || model("Carts", cart);

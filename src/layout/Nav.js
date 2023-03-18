@@ -3,19 +3,19 @@ import { isAuth } from "../redux/AuthState";
 import { CartIcon } from "../assets/Icon";
 import {
   Avatar,
+  Button,
+  Divider,
   Flex,
   Heading,
   HStack,
   IconButton,
-  Spacer,
+  Img,
   Menu,
   MenuButton,
-  MenuList,
   MenuItem,
+  MenuList,
+  Spacer,
   Text,
-  Button,
-  Divider,
-  Img,
 } from "@chakra-ui/react";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
@@ -24,17 +24,15 @@ import { useCallback } from "react";
 
 const Nav = () => {
   const { isLogin, userData } = useSelector((state) => state.auth);
-
   const { cart } = userData;
-
   const router = useRouter();
-
   const dispatch = useDispatch();
+
+  const totalCart = cart?.cartList?.length;
 
   const logoutHandler = useCallback(() => {
     deleteCookie("token");
     deleteCookie("userid");
-    deleteCookie("userData");
     dispatch(isAuth(false));
   }, [dispatch]);
 
@@ -67,14 +65,14 @@ const Nav = () => {
               icon={<CartIcon size={25} />}
               mr={3}
             />
-            <MenuList overflowY="scroll" h="300px" boxShadow="lg">
+            <MenuList overflowY="scroll" h="300px" boxShadow="lg" w={270}>
               <HStack
                 justifyContent="space-between"
                 align="center"
                 px={3}
                 py={2}
               >
-                <Text>My Cart (10)</Text>
+                <Text>My Cart ({totalCart})</Text>
                 <Button
                   variant="link"
                   size="sm"
@@ -85,20 +83,20 @@ const Nav = () => {
                 </Button>
               </HStack>
               <Divider colorScheme="blackAlpha" size={30} />
-              {userData.cart &&
+              {userData.cart && userData.cart.cartList &&
                 cart?.cartList?.map((c) => (
-                  <MenuItem justifyContent="space-between" key={c.id} w={300}>
+                  <MenuItem justifyContent="space-between" key={c.id}>
                     <Img
-                      src={`https://source.unsplash.com/300x300?${c.product.name}`}
+                      src={`https://source.unsplash.com/300x300?${c?.product?.name}`}
                       boxSize="30px"
                       objectFit="cover"
                     />
                     <Flex w="50%" direction="column">
                       <Text fontSize="sm" as="h6" noOfLines={1}>
-                        {c.product.name}
+                        {c?.product?.name}
                       </Text>
                       <Text fontSize="xs" as="h6">
-                        Quantity : {c.quantity}
+                        Quantity : {c?.quantity}
                       </Text>
                     </Flex>
                     <Text>${c.price}</Text>

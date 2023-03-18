@@ -1,16 +1,17 @@
 import userSchema from "@/models/UserModels";
 import connectMongo from "@/utils/connectMongo";
+import cartSchema from "@/models/CartModels";
+import productSchema from "@/models/ProductsModels";
 
 /**
- *
  * @param {import("next").NextApiRequest} req
  * @param {*import("next").NextApiResponse} res
- *
  */
 
 export default async function handler(req, res) {
-  if (req.method !== "GET")
+  if (req.method !== "GET") {
     return res.status(405).json({ message: "method not allowed" });
+  }
 
   const userId = req.query.uid;
 
@@ -24,22 +25,24 @@ export default async function handler(req, res) {
 
   let findUser;
   try {
-    findUser = await userSchema.findById(userId, "-password").populate("cart");
-
-    // .populate({
-    //   path: "cart",
-    //   populate: {
-    //     path: "cartList.product",
-    //   },
-    // });
+    findUser = await userSchema
+      .findById(userId, "-password").populate({
+        path: "cart",
+        model: cartSchema,
+        populate: {
+          path: "cartList.product",
+          model: productSchema,
+        },
+      });
   } catch (error) {
     return res
       .status(500)
       .json({ message: "something went wrong pls try again" });
   }
 
-  if (!findUser)
+  if (!findUser) {
     return res.status(404).json({ message: "this user not found" });
+  }
 
   res.status(200).json({
     status: "success",

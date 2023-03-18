@@ -17,7 +17,7 @@ import ToastComponent from "../UI/ToastComponent";
 
 const ProductList = ({ data }) => {
   const router = useRouter();
-  const { id } = useSelector((state) => state.auth.userData);
+  const userData = useSelector((state) => state.auth.userData);
 
   const handleNavigate = (id) => {
     router.push(`/product-detail/${id}`);
@@ -27,13 +27,15 @@ const ProductList = ({ data }) => {
 
   const addToCartHanlder = async (data) => {
     try {
-      const res = await axios.post(`/api/cart/add/${id}`, data).catch((err) => {
-        const errorMsg = err.response.data.message;
-        throw (
-          errorMsg ||
-          "something went wrong, cant add product to cart, pls try again"
-        );
-      });
+      const res = await axios
+        .post(`/api/cart/add/${userData?.id}`, data)
+        .catch((err) => {
+          const errorMsg = err.response.data.message;
+          throw (
+            errorMsg ||
+            "something went wrong, cant add product to cart, pls try again"
+          );
+        });
       toast({
         title: "product have been added to your cart",
         status: "success",

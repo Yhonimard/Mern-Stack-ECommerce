@@ -9,7 +9,7 @@ const user = new Schema(
     address: { type: String, required: true },
     cart: { type: Types.ObjectId, ref: "Carts" },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const userSchema = models.Users || model("Users", user);

@@ -6,8 +6,9 @@ const product = new Schema(
     category: { type: String, required: true },
     price: { type: Number, required: true },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const productSchema = models.Products || model("Products", product);
+// models.Products
 export default productSchema;

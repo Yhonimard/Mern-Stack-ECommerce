@@ -7,22 +7,23 @@ import productSchema from "@/models/ProductsModels";
 /**
  * @param {import("next").NextApiRequest} req
  * @param {import("next").NextApiResponse} res
- *
  */
 
 const handler = async (req, res) => {
-  if (req.method !== "POST")
+  if (req.method !== "POST") {
     return res.status(405).json({ message: "method not allowed" });
+  }
 
   const { productId, quantity, price } = req.body;
 
   const userId = getCookie("userid", { req, res });
   const userIdFromParam = req.query.uid;
 
-  if (userIdFromParam !== userId)
+  if (userIdFromParam !== userId) {
     return res
       .status(400)
       .json({ message: "you not allowed to change this cart" });
+  }
 
   try {
     await connectMongo();
@@ -42,10 +43,11 @@ const handler = async (req, res) => {
       .status(500)
       .json({ message: "something went wrong, please try again" });
   }
-  if (!existingUserWithCart)
+  if (!existingUserWithCart) {
     return res
       .status(404)
       .json({ message: "this user not found. could not add product to cart" });
+  }
 
   let existingProduct;
   try {
@@ -56,8 +58,9 @@ const handler = async (req, res) => {
       .json({ message: "something went wrong, please try again" });
   }
 
-  if (!existingProduct)
+  if (!existingProduct) {
     return res.status(404).json({ message: "this product doesn't exist" });
+  }
 
   let existingCart;
   try {
@@ -92,18 +95,19 @@ const handler = async (req, res) => {
   }
 
   const findCart = existingCart.cartList.find(
-    (item) => item.product == productId
+    (item) => item.product == productId,
   );
 
   const cartIndex = existingCart.cartList.findIndex(
-    (item) => item.product == productId
+    (item) => item.product == productId,
   );
 
   if (findCart) {
     let productItem = existingCart.cartList[cartIndex];
-
     productItem.quantity += quantity;
-    productItem.price += price;
+
+    productItem.price += existingProduct.price * quantity;
+
     existingCart.cartList[cartIndex] = productItem;
   } else {
     const productToBeAdded = {
@@ -113,6 +117,10 @@ const handler = async (req, res) => {
     };
     existingCart.cartList.push(productToBeAdded);
   }
+
+  let total = 0;
+  existingCart.cartList.map((item) => (total += item.price));
+  existingCart.totalPrice = total;
 
   try {
     await existingCart.save();
