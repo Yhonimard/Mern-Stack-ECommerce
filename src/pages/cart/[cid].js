@@ -14,7 +14,6 @@ export default CartPage;
 
 export async function getStaticPaths() {
   const data = await getCart();
-  console.log(data);
   const paths = data?.result?.map((c) => {
     return {
       params: {
@@ -28,9 +27,8 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps() {
-  const data = await getCartById();
-  console.log(data);
+export async function getStaticProps({ params }) {
+  const data = await getCartById(params.cid);
 
   return {
     props: {

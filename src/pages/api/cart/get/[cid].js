@@ -42,8 +42,6 @@ export default async function handler(req, res) {
       .json({ message: "You don't have a product in cart" });
   }
 
-  console.log("userId", userId);
-
   return res.status(200).json({
     message: "fetching cart by cartId success",
     status: "success",

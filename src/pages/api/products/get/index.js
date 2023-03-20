@@ -14,7 +14,6 @@ const handler = async (req, res) => {
   try {
     await connectMongo();
   } catch (error) {
-    console.log("error from get index", error);
     return res
       .status(500)
       .json({ message: "fetching data failed, something went wrong " });
