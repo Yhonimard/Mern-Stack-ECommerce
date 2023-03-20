@@ -1,4 +1,4 @@
-const { default: axios } = require("axios");
+import axios from "axios";
 import { GetUserId } from "@/utils/getAuth";
 import { useQuery } from "@tanstack/react-query";
 import { getCookie } from "cookies-next";

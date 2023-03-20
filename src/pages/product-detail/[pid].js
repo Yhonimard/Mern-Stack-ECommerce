@@ -1,4 +1,5 @@
 import ProductDetailComponent from "@/components/ProductDetail/ProductDetailComponent";
+import { getProduct, getProductById } from "@/lib/getProductByid";
 import axios from "axios";
 
 const ProductDetails = ({ data }) => {
@@ -12,13 +13,12 @@ const ProductDetails = ({ data }) => {
 export default ProductDetails;
 
 export const getStaticPaths = async () => {
-  const res = await fetch(`${process.env.HOST_URL}/api/products/get`);
-  const data = await res.json();
+  const data = await getProduct();
 
-  const paths = data.result.map((i) => {
+  const paths = data?.result?.map((i) => {
     return {
       params: {
-        pid: `${i.id}`,
+        pid: i.id,
       },
     };
   });
@@ -31,8 +31,8 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async ({ params }) => {
   const { pid } = params;
-  const res = await fetch(`${process.env.HOST_URL}/api/products/get/${pid}`);
-  const data = await res.json();
+
+  const data = await getProductById(pid);
 
   return {
     props: {

@@ -1,6 +1,7 @@
 import CartComponent from "@/components/Cart/CartComponent";
 import { useRouter } from "next/router";
 import useGetCartData from "@/hooks/useGetCartData";
+import { getCart, getCartById } from "@/lib/getCartById";
 
 const CartPage = ({ data }) => {
   const { query } = useRouter();
@@ -11,10 +12,10 @@ const CartPage = ({ data }) => {
 };
 export default CartPage;
 
-export const getStaticPaths = async () => {
-  const res = await fetch(`${process.env.HOST_URL}/api/cart/get`);
-  const data = await res.json();
-  const paths = data.result.map((c) => {
+export async function getStaticPaths() {
+  const data = await getCart();
+  console.log(data);
+  const paths = data?.result?.map((c) => {
     return {
       params: {
         cid: c.id,
@@ -25,16 +26,15 @@ export const getStaticPaths = async () => {
     paths,
     fallback: false,
   };
-};
+}
 
-export const getStaticProps = async ({ params }) => {
-  const { cid } = params;
-  const res = await fetch(`${process.env.HOST_URL}/api/cart/get/${cid}`);
-  const data = await res.json();
+export async function getStaticProps() {
+  const data = await getCartById();
+  console.log(data);
 
   return {
     props: {
       data,
     },
   };
-};
+}
