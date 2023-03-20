@@ -1,8 +1,9 @@
 import ProductDetailComponent from "@/components/ProductDetail/ProductDetailComponent";
-import { getProduct, getProductById } from "@/lib/getProductByid";
-import axios from "axios";
+import productSchema from "@/models/ProductsModels";
+import connectMongo from "@/utils/connectMongo";
 
 const ProductDetails = ({ data }) => {
+  console.log(data);
   return (
     <>
       <ProductDetailComponent data={data} />
@@ -13,12 +14,16 @@ const ProductDetails = ({ data }) => {
 export default ProductDetails;
 
 export const getStaticPaths = async () => {
-  const data = await getProduct();
+  await connectMongo();
 
-  const paths = data?.result?.map((i) => {
+  const product = await productSchema.find({});
+
+  const products = product.map((p) => p?.toObject({ getters: true }));
+
+  const paths = products?.map((p) => {
     return {
       params: {
-        pid: i.id,
+        pid: p.id,
       },
     };
   });
@@ -32,11 +37,17 @@ export const getStaticPaths = async () => {
 export const getStaticProps = async ({ params }) => {
   const { pid } = params;
 
-  const data = await getProductById(pid);
+  await connectMongo();
+
+  const products = await productSchema.findById(pid);
+
+  const productData = JSON.parse(
+    JSON.stringify(products.toObject({ getters: true }))
+  );
 
   return {
     props: {
-      data,
+      data: productData,
     },
   };
 };

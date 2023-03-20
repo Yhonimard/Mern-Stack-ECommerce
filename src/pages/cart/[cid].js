@@ -1,7 +1,9 @@
 import CartComponent from "@/components/Cart/CartComponent";
 import { useRouter } from "next/router";
 import useGetCartData from "@/hooks/useGetCartData";
-import { getCart, getCartById } from "@/lib/getCartById";
+import cartSchema from "@/models/CartModels";
+import connectMongo from "@/utils/connectMongo";
+import productSchema from "@/models/ProductsModels";
 
 const CartPage = ({ data }) => {
   const { query } = useRouter();
@@ -13,14 +15,18 @@ const CartPage = ({ data }) => {
 export default CartPage;
 
 export async function getStaticPaths() {
-  const data = await getCart();
-  const paths = data?.result?.map((c) => {
+  await connectMongo();
+
+  const cart = await cartSchema.find();
+
+  const carts = cart.map((cart) => cart?.toObject({ getters: true }));
+
+  const paths = carts?.map((c) => {
     return {
-      params: {
-        cid: c.id,
-      },
+      params: { cid: c.id },
     };
   });
+
   return {
     paths,
     fallback: false,
@@ -28,11 +34,19 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const data = await getCartById(params.cid);
+  const {} = params;
+
+  await connectMongo();
+  const cart = await cartSchema.findById(params.cid).populate({
+    path: "cartList.product",
+    model: productSchema,
+  });
+
+  const cartData = JSON.parse(JSON.stringify(cart.toObject({ getters: true })));
 
   return {
     props: {
-      data,
+      data: cartData,
     },
   };
 }

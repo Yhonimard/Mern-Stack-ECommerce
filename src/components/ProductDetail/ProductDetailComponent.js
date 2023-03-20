@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 
 const ProductDetailComponent = ({ data }) => {
-  const { result: productData } = data;
   const img = "https://source.unsplash.com/500x500";
   return (
     <Container
@@ -41,15 +40,15 @@ const ProductDetailComponent = ({ data }) => {
             justifyContent={{ md: "center" }}
           >
             <Heading size="md" lineHeight="short">
-              {productData.name}
+              {data?.name}
             </Heading>
             <Text mt="2" h={"150px"} overflowY="auto">
-              {productData.description}
+              {data?.description}
             </Text>
           </CardBody>
           <CardFooter display="flex" alignItems="center" justify="space-around">
             <Text fontSize="lg" fontWeight="bold">
-              ${productData.price}
+              ${data?.price}
             </Text>
             <Stack direction={["row"]}>
               <IconButton
