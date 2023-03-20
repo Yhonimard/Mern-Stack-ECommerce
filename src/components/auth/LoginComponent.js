@@ -17,26 +17,18 @@ import {
 } from "@chakra-ui/react";
 import { setCookie } from "cookies-next";
 import { useCallback } from "react";
-import { useDispatch } from "react-redux";
-import { isAuth } from "@/redux/AuthState";
 import ToastComponent from "../UI/ToastComponent";
 
 const LoginComponent = () => {
   const router = useRouter();
 
-  const dispatch = useDispatch();
-
   const toast = ToastComponent();
 
   const { errors, handleSubmit, register } = LoginSchema();
 
-  const loginHandler = useCallback(
-    (token) => {
-      dispatch(isAuth(true));
-      setCookie("token", token);
-    },
-    [dispatch]
-  );
+  const loginHandler = useCallback((token) => {
+    setCookie("token", token);
+  }, []);
   const submitHandler = useCallback(
     async (userData) => {
       try {

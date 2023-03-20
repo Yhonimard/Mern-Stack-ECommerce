@@ -1,59 +1,60 @@
 import { CartPlusIcon } from "@/assets/Icon";
-import { useSelector } from "react-redux";
 import {
+  Box,
+  Button,
   Card,
   CardBody,
   Container,
-  Text,
   Heading,
-  Img,
-  SimpleGrid,
   HStack,
   IconButton,
+  Img,
+  SimpleGrid,
+  Text,
 } from "@chakra-ui/react";
-import axios from "axios";
 import { useRouter } from "next/router";
 import ToastComponent from "../UI/ToastComponent";
+import useAddtoCartHanlder from "@/hooks/useAddToCartHandler";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback, useState } from "react";
 
 const ProductList = ({ data }) => {
+  const [loadPage, setLoadPage] = useState(8);
   const router = useRouter();
-  const userData = useSelector((state) => state.auth.userData);
+  const toast = ToastComponent();
+  const queryClient = useQueryClient();
+
+  const onSuccess = () => {
+    toast({ title: "product have been add to your cart", status: "success" });
+    queryClient.invalidateQueries({ queryKey: ["cart-data"] });
+    queryClient.invalidateQueries({ queryKey: ["user-data"] });
+  };
+
+  const onError = () => {
+    toast({
+      title: "something went wrong. cant add product to cart, pls try again",
+      status: "error",
+    });
+  };
+  const { mutate } = useAddtoCartHanlder({ onSuccess, onError });
+
+  const addToCartHanlder = async (data) => {
+    mutate(data);
+  };
 
   const handleNavigate = (id) => {
     router.push(`/product-detail/${id}`);
   };
 
-  const toast = ToastComponent();
-
-  const addToCartHanlder = async (data) => {
-    try {
-      const res = await axios
-        .post(`/api/cart/add/${userData?.id}`, data)
-        .catch((err) => {
-          const errorMsg = err.response.data.message;
-          throw (
-            errorMsg ||
-            "something went wrong, cant add product to cart, pls try again"
-          );
-        });
-      toast({
-        title: "product have been added to your cart",
-        status: "success",
-      });
-    } catch (error) {
-      toast({
-        title: "adding product to your cart failed, pls try again",
-        status: "error",
-      });
-    }
-  };
+  const loadMoreHandler = useCallback(() => {
+    setLoadPage((prev) => (prev += 8));
+  }, []);
 
   const { result: datas } = data;
-
   return (
     <Container maxW="container.xl" mt={2}>
       <SimpleGrid columns={[2, 3, null, 4]} spacing={5}>
-        {datas.map((i) => (
+        {datas.slice(0, loadPage).map((i) => (
           <Card
             overflow="hidden"
             borderRadius="md"
@@ -97,6 +98,13 @@ const ProductList = ({ data }) => {
           </Card>
         ))}
       </SimpleGrid>
+      <Box w="full" display="flex" justifyContent="center" my={2}>
+        {datas.length - 1 < datas.length ? (
+          <Button variant="ghost" onClick={loadMoreHandler}>
+            LOAD MORE
+          </Button>
+        ) : null}
+      </Box>
     </Container>
   );
 };

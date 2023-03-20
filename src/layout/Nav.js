@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from "react-redux";
-import { isAuth } from "../redux/AuthState";
 import { CartIcon } from "../assets/Icon";
 import {
   Avatar,
   Button,
   Divider,
   Flex,
+  getToken,
   Heading,
   HStack,
   IconButton,
@@ -19,25 +18,30 @@ import {
 } from "@chakra-ui/react";
 import { deleteCookie } from "cookies-next";
 import { useRouter } from "next/router";
-import Link from "next/link";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
+import useGetUserData from "@/hooks/useGetUserData";
+import { authCtx } from "@/context/AuthContext";
 
 const Nav = () => {
-  const { isLogin, userData } = useSelector((state) => state.auth);
-  const { cart } = userData;
   const router = useRouter();
-  const dispatch = useDispatch();
+  const { isLogin } = useContext(authCtx);
 
-  const totalCart = cart?.cartList?.length;
+  const { data } = useGetUserData();
+  const result = data?.result;
+
+  const totalCart = result?.cart?.cartList?.length;
 
   const logoutHandler = useCallback(() => {
     deleteCookie("token");
     deleteCookie("userid");
-    dispatch(isAuth(false));
-  }, [dispatch]);
+  }, []);
 
   const handleNavigate = () => {
-    router.push(`/cart/${cart.id}`);
+    router.push(`/cart/${result?.cart?.id}`);
+  };
+
+  const navigateLoginHanlder = () => {
+    router.push("/auth/login");
   };
 
   return (
@@ -46,8 +50,7 @@ const Nav = () => {
       <Spacer />
       {!isLogin && (
         <Button
-          as={Link}
-          href="/auth/login"
+          onClick={navigateLoginHanlder}
           variant="ghost"
           colorScheme="blackAlpha"
           color="black"
@@ -83,8 +86,9 @@ const Nav = () => {
                 </Button>
               </HStack>
               <Divider colorScheme="blackAlpha" size={30} />
-              {userData.cart && userData.cart.cartList &&
-                cart?.cartList?.map((c) => (
+              {result?.cart &&
+                result?.cart.cartList &&
+                result?.cart?.cartList?.map((c) => (
                   <MenuItem justifyContent="space-between" key={c.id}>
                     <Img
                       src={`https://source.unsplash.com/300x300?${c?.product?.name}`}

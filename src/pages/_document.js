@@ -1,6 +1,4 @@
-import store from "@/redux/store";
 import { Html, Head, Main, NextScript } from "next/document";
-import { Provider } from "react-redux";
 
 export default function Document() {
   return (

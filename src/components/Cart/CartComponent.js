@@ -10,23 +10,22 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
 import { MinusIcon, PlusIcon } from "@/assets/Icon";
-import axios from "axios";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import useAddtoCartHanlder from "@/hooks/useAddToCartHandler";
+import { useQueryClient } from "@tanstack/react-query";
+import ToastComponent from "../UI/ToastComponent";
 
 const CartComponent = ({ cartData }) => {
-  const userData = useSelector((state) => state.auth.userData);
-
+  const toast = ToastComponent();
   const queryClient = useQueryClient();
+  const onSuccess = () => {
+    queryClient.invalidateQueries("cart-data", "user-data");
+  };
+  const onError = () => {
+    toast({ title: "something went wrong pls try again", status: "error" });
+  };
 
-  const { mutate } = useMutation({
-    mutationFn: (data) => axios.post(`/api/cart/add/${userData?.id}`, data),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["cart-data"] });
-    },
-  });
-
+  const { mutate } = useAddtoCartHanlder({ onSuccess, onError });
   const { result } = cartData;
 
   const addQtyHandler = (id) => {

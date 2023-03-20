@@ -19,7 +19,19 @@ const middlerware = async (req) => {
   if (token && verifiedToken) {
     const userId = verifiedToken?.userId;
     res.cookies.set("userid", userId);
-    return res;
+  }
+  const isLogin = !!verifiedToken;
+
+  if (req.nextUrl.pathname.startsWith("/auth") && isLogin) {
+    return NextResponse.redirect(new URL("/cannot-access-this-page", req.url));
+  }
+
+  if (req.nextUrl.pathname.startsWith("/cart") && !isLogin) {
+    return NextResponse.redirect(new URL("/cannot-access-this-page", req.url));
+  }
+
+  if (req.nextUrl.pathname.startsWith("/api/cart") && !isLogin) {
+    return NextResponse.redirect(new URL("/cannot-access-this-page", req.url));
   }
 
   return res;

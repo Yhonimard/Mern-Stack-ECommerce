@@ -1,6 +1,5 @@
 import ProductHeader from "@/components/Product/ProductHeader";
 import ProductList from "@/components/Product/ProductList";
-import { useSelector } from "react-redux";
 
 export default function Home({ data }) {
   return (
