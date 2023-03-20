@@ -6,8 +6,9 @@ import connectMongo from "@/utils/connectMongo";
  */
 
 export default async function handler(req, res) {
-  if (req.method !== "GET")
+  if (req.method !== "GET") {
     return res.status(405).json({ message: "method not allowed" });
+  }
 
   try {
     await connectMongo();
@@ -25,8 +26,6 @@ export default async function handler(req, res) {
       .status(500)
       .json({ message: "something went wrong pls try again" });
   }
-
-  // if (!cart) return res.status(404).json({ message: "cant find product" });
 
   return res.status(200).json({
     message: "fetching data success",

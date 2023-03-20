@@ -4,7 +4,6 @@ import {
   Button,
   Divider,
   Flex,
-  getToken,
   Heading,
   HStack,
   IconButton,
