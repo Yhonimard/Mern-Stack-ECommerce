@@ -25,12 +25,3 @@ app.listen(3000, () => {
     console.log(err);
   });
 });
-
-// mongoose
-//   .connect(process.env.DB_URL)
-//   .then(() => {
-//     app.listen(3001);
-//   })
-//   .catch((err) => {
-//     console.log(err);
-//   });
