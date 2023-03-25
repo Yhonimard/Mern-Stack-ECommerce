@@ -24,6 +24,7 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || "an unknown error occured" });
 });
 
-app.listen(3000, async () => {
-  await mongoose.connect(process.env.DB_URL);
-});
+mongoose
+  .connect(process.env.DB_URL)
+  .then(() => app.listen(3000))
+  .catch((err) => console.log(err));
