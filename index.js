@@ -20,11 +20,17 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || "an unknown error occured" });
 });
 
-mongoose
-  .connect(process.env.DB_URL)
-  .then(() => {
-    app.listen(3001);
-  })
-  .catch((err) => {
+app.listen(3000, () => {
+  mongoose.connect(process.env.DB_URL).catch((err) => {
     console.log(err);
   });
+});
+
+// mongoose
+//   .connect(process.env.DB_URL)
+//   .then(() => {
+//     app.listen(3001);
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });
