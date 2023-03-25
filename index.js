@@ -10,6 +10,10 @@ app.use(bodyParser.json());
 
 app.use(cors());
 
+app.get("/", (req, res, next) => {
+  return res.json({ message: "hay" });
+});
+
 app.use("/api/product", productRouter);
 app.use("/api/user", userRoute);
 
@@ -20,8 +24,6 @@ app.use((error, req, res, next) => {
     .json({ message: error.message || "an unknown error occured" });
 });
 
-app.listen(3000, () => {
-  mongoose.connect(process.env.DB_URL).catch((err) => {
-    console.log(err);
-  });
+app.listen(3000, async () => {
+  await mongoose.connect(process.env.DB_URL);
 });
