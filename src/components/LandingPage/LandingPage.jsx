@@ -76,11 +76,8 @@ const LandingPage = () => {
             </HeroRow>
             <HeroRow>
               <Text>
-                <Title>Temukan barang yang kamu inginkan di Cuyshop</Title>
-                <SubTitle>
-                  Cuyshop adalah e-commerce yang dapat memberikan pengalaman
-                  terbaik untuk jual beli bagi pengguna
-                </SubTitle>
+                <Title>Find the best item you want</Title>
+                <SubTitle>Here is the best product place you can buy</SubTitle>
                 <Link href="/store" passHref>
                   <ProductButton>Explore produk</ProductButton>
                 </Link>

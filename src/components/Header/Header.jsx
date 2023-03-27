@@ -71,14 +71,11 @@ const Header = () => {
       <Container>
         <Wrapper>
           <Link href="/" passHref>
-            <Title>Cuyshop</Title>
+            <Title>YHONISHOP</Title>
           </Link>
           <Menu>
             <Link href="/store" passHref>
               <MenuItem>Produk</MenuItem>
-            </Link>
-            <Link href="/about" passHref>
-              <MenuItem>Tentang Kami</MenuItem>
             </Link>
           </Menu>
           <RightMenu>
@@ -95,7 +92,8 @@ const Header = () => {
               ml="18px"
               displayMobile="none"
               width="28px"
-              onClick={() => toggleShowCart()}>
+              onClick={() => toggleShowCart()}
+            >
               {state.cart.totalItem > 0 && (
                 <CartItemCount>{state.cart.totalItem}</CartItemCount>
               )}

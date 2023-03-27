@@ -27,9 +27,9 @@ const FloatingCart = ({ isOpen }) => {
   return (
     <Container isOpen={isOpen}>
       <Header>
-        <HeaderText>Keranjang ({totalItem})</HeaderText>
+        <HeaderText>my cart ({totalItem})</HeaderText>
         <Link href={`/cart`} passHref>
-          <HeaderButton>Lihat semua keranjang</HeaderButton>
+          <HeaderButton>see all cart</HeaderButton>
         </Link>
       </Header>
       <Content>
@@ -50,7 +50,9 @@ const FloatingCart = ({ isOpen }) => {
 
                 <ProductData>
                   <ProductTitle>{product.title}</ProductTitle>
-                  <ProductQuanity>{product.quantity} Barang</ProductQuanity>
+                  <ProductQuanity>
+                    quantity : {product.quantity}{" "}
+                  </ProductQuanity>
                 </ProductData>
                 <ProductPrice>${product.price}</ProductPrice>
               </ProductItem>

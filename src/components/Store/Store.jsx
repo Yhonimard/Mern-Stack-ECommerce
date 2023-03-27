@@ -142,7 +142,8 @@ const StoreComponent = () => {
               <StoreCategoryItem
                 key={i}
                 onClick={handleChangeCategories}
-                value={val.category}>
+                value={val.category}
+              >
                 {val.category}
               </StoreCategoryItem>
             );
@@ -151,7 +152,7 @@ const StoreComponent = () => {
       </StoreCategoryWrapper>
       <Container>
         <ProductWrapper>
-          <ProductTitle>Semua Produk</ProductTitle>
+          <ProductTitle>All Product</ProductTitle>
           <ProductListWrapper>
             <ProductList>
               {productsList?.map((product, index) => {
@@ -183,11 +184,9 @@ const StoreComponent = () => {
               })}
             </ProductList>
             {isAllDataFetched ? (
-              <ProductShowed>Semua produk telah ditampilkan</ProductShowed>
+              <ProductShowed>All products are already displayed</ProductShowed>
             ) : (
-              <ProductButton onClick={handleAddPage}>
-                Lihat lainnya
-              </ProductButton>
+              <ProductButton onClick={handleAddPage}>see more</ProductButton>
             )}
           </ProductListWrapper>
         </ProductWrapper>

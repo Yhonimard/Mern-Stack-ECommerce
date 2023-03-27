@@ -62,7 +62,9 @@ const CartComponent = ({ isScrollBottom }) => {
 
     handleActionItem(updateCart)(dispatch);
 
-    handleActionModal(modalModel(true, "Produk berhasil dihapus"))(dispatch);
+    handleActionModal(modalModel(true, "Product successfully deleted"))(
+      dispatch
+    );
   };
 
   const handleClickQuantity = (increment, id) => {
@@ -106,14 +108,14 @@ const CartComponent = ({ isScrollBottom }) => {
   return (
     <div>
       <CartHeaderContainer>
-        <CartHeaderTitle>Keranjang</CartHeaderTitle>
+        <CartHeaderTitle>cart</CartHeaderTitle>
       </CartHeaderContainer>
       <Container>
         <Wrapper>
           {item.length === 0 ? (
             <ProductNotFound>
               <ProductNotFoundText>
-                Tidak ada item dalam keranjang
+                you dont have any item in cart
               </ProductNotFoundText>
             </ProductNotFound>
           ) : (
@@ -147,21 +149,24 @@ const CartComponent = ({ isScrollBottom }) => {
                         <ProductButtonWrapper>
                           <ButtonAction
                             mr="6"
-                            onClick={() => handleRemoveProduct(product.id)}>
+                            onClick={() => handleRemoveProduct(product.id)}
+                          >
                             <FaTrash size={16} color="#a2a0a0" />
                           </ButtonAction>
                           <ButtonQuantity>
                             <ButtonAction
                               onClick={() =>
                                 handleClickQuantity(false, product.id)
-                              }>
+                              }
+                            >
                               <FaMinusCircle size={18} color="#a2a0a0" />
                             </ButtonAction>
                             <ProductQuanity>{product.quantity}</ProductQuanity>
                             <ButtonAction
                               onClick={() =>
                                 handleClickQuantity(true, product.id)
-                              }>
+                              }
+                            >
                               <FaPlusCircle size={18} color="#a2a0a0" />
                             </ButtonAction>
                           </ButtonQuantity>
@@ -175,10 +180,10 @@ const CartComponent = ({ isScrollBottom }) => {
                 <ProductSummaryWrapper isScrollBottom={isScrollBottom}>
                   <ProductSummaryCard>
                     <ProductSummaryCardContent>
-                      <ProductSummaryHead>Ringkasan belanja</ProductSummaryHead>
+                      <ProductSummaryHead>Shopping summary</ProductSummaryHead>
                       <ProductSummaryText mt="20px">
                         <ProductSummarySubHead>
-                          Total barang
+                          Total Product
                         </ProductSummarySubHead>
                         <ProductSummarySubHead>
                           {totalItem}
@@ -186,18 +191,18 @@ const CartComponent = ({ isScrollBottom }) => {
                       </ProductSummaryText>
                       <ProductSummaryText mt="8px">
                         <ProductSummarySubHead>
-                          Total diskon
+                          Total Discount
                         </ProductSummarySubHead>
                         <ProductSummarySubHead>0</ProductSummarySubHead>
                       </ProductSummaryText>
                       <ProductSummarySpacer />
                       <ProductSummaryText mt="26px">
-                        <ProductSummaryHead>Total harga</ProductSummaryHead>
+                        <ProductSummaryHead>Total Price</ProductSummaryHead>
                         <ProductSummaryHead>
                           ${getGrandTotalPrice()}
                         </ProductSummaryHead>
                       </ProductSummaryText>
-                      <ButtonBuy>Beli ({totalItem})</ButtonBuy>
+                      <ButtonBuy>Buy ({totalItem})</ButtonBuy>
                     </ProductSummaryCardContent>
                   </ProductSummaryCard>
                 </ProductSummaryWrapper>

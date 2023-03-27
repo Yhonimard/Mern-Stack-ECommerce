@@ -89,9 +89,9 @@ const Detail = () => {
 
     handleActionItem(cart)(dispatch);
 
-    handleActionModal(
-      modalModel(true, "Produk berhasil ditambahkan ke keranjang")
-    )(dispatch);
+    handleActionModal(modalModel(true, "product have been added to your cart"))(
+      dispatch
+    );
   };
 
   const handleClickQuantity = (increment) => {
@@ -120,11 +120,9 @@ const Detail = () => {
         <Wrapper>
           {invalidData ? (
             <>
-              <ProductNotFound>
-                Produk tidak ditemukan, silahkan kembali
-              </ProductNotFound>
+              <ProductNotFound>product not found</ProductNotFound>
               <Link href="/store" passHref>
-                <ButtonBack>Kembali</ButtonBack>
+                <ButtonBack>Back</ButtonBack>
               </Link>
             </>
           ) : (
@@ -138,7 +136,7 @@ const Detail = () => {
                 <ProductHeader>
                   <ProductCategory>{product?.category}</ProductCategory>
                   <Link href="/store" passHref>
-                    <ButtonBack>Kembali</ButtonBack>
+                    <ButtonBack>Back</ButtonBack>
                   </Link>
                 </ProductHeader>
 
@@ -156,7 +154,7 @@ const Detail = () => {
                     </ButtonCalc>
                   </ButtonQuantity>
                   <ButtonCart disabled={quantity === 0} onClick={handleAddCart}>
-                    Tambah ke keranjang
+                    Add to cart
                   </ButtonCart>
                 </ButtonWrapper>
               </WrapperRow>
